@@ -18,7 +18,7 @@ Develop a sample business service using Core Data &amp; Services (CDS), Node.js,
 
 ---
 
-[ACCORDION-BEGIN [Step 1: ](Set up local development environment)]
+**Step 1:** Set up local development environment
 
 Before you start, make sure that you've completed the prerequisites.
 
@@ -42,35 +42,27 @@ Before you start, make sure that you've completed the prerequisites.
     cds
     ```
 
-    ![cds commands](cds-commands.png)
+    ![cds commands](images/cds-commands.png)
 
     >This lists the available `cds` commands.  For example, use `cds version` to check the version that you've installed. To know what is the latest version, see the [Release Notes](https://cap.cloud.sap/docs/releases/) for CAP.
 
-[DONE]
-
-[ACCORDION-END]
-
-[ACCORDION-BEGIN [Step 2: ](Install Visual Studio Code extension)]
+**Step 2:** Install Visual Studio Code extension
 
 1. Go to [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=SAPSE.vscode-cds#overview).
 
 2. Choose **Install**.
 
-![Folder structure](VSCode_extension.png)
+![Folder structure](images/VSCode_extension.png)
 
    Visual Studio Code opens the extensions details page.
 
-![Folder structure](VSCode_view_extension.png)
+![Folder structure](images/VSCode_view_extension.png)
 
 3. In Visual Studio Code choose **Install** to enable the extension for CDS Language Support.
 
 > If the extension is already installed and enabled in VS Code, it will be updated automatically.
 
-[DONE]
-
-[ACCORDION-END]
-
-[ACCORDION-BEGIN [Step 3: ](Start project)]
+**Step 3:** Start project
 
 [OPTION BEGIN [Windows]]
 
@@ -108,9 +100,7 @@ With your installed CDS command line tool, you can now create a new CAP-based pr
         Waiting for some to arrive...
     ```
 
-[OPTION END]
-
-[OPTION BEGIN [MacOS and Linux]]
+[MacOS and Linux]
 
 1. Open a command line window and run the following command in a folder of your choice to create the project:
 
@@ -142,13 +132,7 @@ With your installed CDS command line tool, you can now create a new CAP-based pr
         Waiting for some to arrive...
     ```
 
-[OPTION END]
-
-[DONE]
-
-[ACCORDION-END]
-
-[ACCORDION-BEGIN [Step 4: ](Define your first service)]
+**Step 4:** Define your first service
 
 After initializing the project, you should see the following empty folders:
 
@@ -156,7 +140,7 @@ After initializing the project, you should see the following empty folders:
 - `db`: for the database level schema model
 - `srv`: for the service definition layer
 
-![Folder structure](folder-structure.png)
+![Folder structure](images/folder-structure.png)
 
 1. Let's feed it by adding a simple domain model. In the **`srv`** folder choose the **New File** icon in Visual Studio Code and create a new file called `cat-service.cds`.
 
@@ -210,11 +194,7 @@ After initializing the project, you should see the following empty folders:
 
     >You won't see data, because you haven't added a data model yet. However, click on the available links to see the service is running.
 
-[DONE]
-
-[ACCORDION-END]
-
-[ACCORDION-BEGIN [Step 5: ](Provide mock data)]
+**Step 5:** Provide mock data
 
 Add service provider logic to return mock data.
 
@@ -253,11 +233,7 @@ Add service provider logic to return mock data.
 
     >You should see the mock data that you've added for the `Books` and `Authors` entities.
 
-[DONE]
-
-[ACCORDION-END]
-
-[ACCORDION-BEGIN [Step 6: ](Add data model and adapt service definition)]
+[Step 6: ](Add data model and adapt service definition)
 
 To get started quickly, you've already added a simplistic all-in-one service definition. However, you would usually put normalized entity definitions into a separate data model and have your services expose potentially de-normalized views on those entities.
 
@@ -304,11 +280,7 @@ To get started quickly, you've already added a simplistic all-in-one service def
 
     >Remember to save your files.
 
-[DONE]
-
-[ACCORDION-END]
-
-[ACCORDION-BEGIN [Step 7: ](Add initial data)]
+**Step 7:** Add initial data
 
 In Visual Studio Code you will add plain CSV files in folder `db/csv` to fill your database tables with initial data.
 
@@ -362,11 +334,7 @@ In Visual Studio Code you will add plain CSV files in folder `db/csv` to fill yo
 
     >You should see a book titled Jane Eyre. If not, make sure you've removed the mock data from `cat-service.js`.
 
-[DONE]
-
-[ACCORDION-END]
-
-[ACCORDION-BEGIN [Step 8: ](Add persistent database)]
+**Step 8:** Add persistent database
 
 Before you continue, make sure that you've completed the prerequisites and installed SQLite (for Windows users only).
 
@@ -417,11 +385,7 @@ Instead of using in-memory, you can also use persistent databases.
     [ terminate with ^C ]
     ```
 
-[DONE]
-
-[ACCORDION-END]
-
-[ACCORDION-BEGIN [Step 9: ](Test generic handlers with Postman)]
+**Step 9:** Test generic handlers with Postman
 
 You can now see the generic handlers shipped with CAP in action.
 
@@ -434,23 +398,19 @@ You can now see the generic handlers shipped with CAP in action.
 
 3. In the Postman app, use the **Import** button in the toolbar:
 
-    ![Postman import](postman-import.png)
+    ![Postman import](images/postman-import.png)
 
 4. Choose **Import File** in the wizard. Click on **Choose Files** and select the file that you've saved before.
 
-    ![Postman import from file](postman-import-from-file.png)
+    ![Postman import from file](images/postman-import-from-file.png)
 
 5. In the imported collection, execute the various requests in the `metadata` and `CRUD` groups. They should all return proper responses.
 
-    ![Test the request](postman-test-request.png)
+    ![Test the request](images/postman-test-request.png)
 
     > With your current service implementation, you can get only `POST` orders. Any `GET` or `DELETE` to an order fails, since you've specified the `Orders` entity to be `@insertonly` in `srv/cat-service.cds`.
 
-[VALIDATE_1]
-
-[ACCORDION-END]
-
-[ACCORDION-BEGIN [Step 10: ](Add custom logic)]
+**Step 10:** Add custom logic
 
 1. In Visual Studio Code open the file `cat-service.js` and replace the existing code with::
 
@@ -487,7 +447,7 @@ You can now see the generic handlers shipped with CAP in action.
 
     >Look at the stock of book `201`.
 
-    ![Test the request](postman-get-books.png)
+    ![Test the request](images/postman-get-books.png)
 
 3. Execute one of the `POST Orders` requests.
 
@@ -496,11 +456,3 @@ You can now see the generic handlers shipped with CAP in action.
 4. Execute the `GET Books` request again.
 
     >The stock of book `201` is lower than before.
-
-[DONE]
-
-[ACCORDION-END]
-
-<p style="text-align: center;">Give us 55 seconds of your time to help us improve</p>
-
-<p style="text-align: center;"><a href="https://sapinsights.eu.qualtrics.com/jfe/form/SV_0im30RgTkbEEHMV?TutorialID=cp-apm-nodejs-create-service" target="_blank"><img src="https://raw.githubusercontent.com/SAPDocuments/Tutorials/master/data/images/285738_Emotion_Faces_R_purple.png"></a></p>
