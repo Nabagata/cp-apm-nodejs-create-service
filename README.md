@@ -1,5 +1,6 @@
-# cp-apm-nodejs-create-service
-Develop a sample business service using Core Data &amp; Services (CDS), Node.js, and SQLite, by using the SAP Cloud Application Programming Model (CAP) and developing on your local environment.
+# Build a Business Application Using CAP for Node.js
+* Develop a sample business service using Core Data &amp; Services (CDS), Node.js, and SQLite, by using the SAP Cloud Application Programming Model (CAP) and developing on your local environment.
+* Deploy your SAP Cloud Application Programming Model (CAP) application into the Cloud Foundry environment of SAP Cloud Platform.
 
 
 ## Prerequisites
@@ -18,7 +19,7 @@ Develop a sample business service using Core Data &amp; Services (CDS), Node.js,
 
 ---
 
-**Step 1:** Set up local development environment
+## **Step 1:** Set up local development environment
 
 Before you start, make sure that you've completed the prerequisites.
 
@@ -46,7 +47,7 @@ Before you start, make sure that you've completed the prerequisites.
 
     >This lists the available `cds` commands.  For example, use `cds version` to check the version that you've installed. To know what is the latest version, see the [Release Notes](https://cap.cloud.sap/docs/releases/) for CAP.
 
-**Step 2:** Install Visual Studio Code extension
+## **Step 2:** Install Visual Studio Code extension
 
 1. Go to [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=SAPSE.vscode-cds#overview).
 
@@ -62,7 +63,7 @@ Before you start, make sure that you've completed the prerequisites.
 
 > If the extension is already installed and enabled in VS Code, it will be updated automatically.
 
-**Step 3:** Start project
+## **Step 3:** Start project
 
 [OPTION BEGIN [Windows]]
 
@@ -132,7 +133,7 @@ With your installed CDS command line tool, you can now create a new CAP-based pr
         Waiting for some to arrive...
     ```
 
-**Step 4:** Define your first service
+## **Step 4:** Define your first service
 
 After initializing the project, you should see the following empty folders:
 
@@ -194,7 +195,7 @@ After initializing the project, you should see the following empty folders:
 
     >You won't see data, because you haven't added a data model yet. However, click on the available links to see the service is running.
 
-**Step 5:** Provide mock data
+## **Step 5:** Provide mock data
 
 Add service provider logic to return mock data.
 
@@ -233,7 +234,7 @@ Add service provider logic to return mock data.
 
     >You should see the mock data that you've added for the `Books` and `Authors` entities.
 
-[Step 6: ](Add data model and adapt service definition)
+## **Step 6:** Add data model and adapt service definition
 
 To get started quickly, you've already added a simplistic all-in-one service definition. However, you would usually put normalized entity definitions into a separate data model and have your services expose potentially de-normalized views on those entities.
 
@@ -280,7 +281,7 @@ To get started quickly, you've already added a simplistic all-in-one service def
 
     >Remember to save your files.
 
-**Step 7:** Add initial data
+## **Step 7:** Add initial data
 
 In Visual Studio Code you will add plain CSV files in folder `db/csv` to fill your database tables with initial data.
 
@@ -334,7 +335,7 @@ In Visual Studio Code you will add plain CSV files in folder `db/csv` to fill yo
 
     >You should see a book titled Jane Eyre. If not, make sure you've removed the mock data from `cat-service.js`.
 
-**Step 8:** Add persistent database
+## **Step 8:** Add persistent database
 
 Before you continue, make sure that you've completed the prerequisites and installed SQLite (for Windows users only).
 
@@ -385,7 +386,7 @@ Instead of using in-memory, you can also use persistent databases.
     [ terminate with ^C ]
     ```
 
-**Step 9:** Test generic handlers with Postman
+## **Step 9:** Test generic handlers with Postman
 
 You can now see the generic handlers shipped with CAP in action.
 
@@ -410,7 +411,7 @@ You can now see the generic handlers shipped with CAP in action.
 
     > With your current service implementation, you can get only `POST` orders. Any `GET` or `DELETE` to an order fails, since you've specified the `Orders` entity to be `@insertonly` in `srv/cat-service.cds`.
 
-**Step 10:** Add custom logic
+## **Step 10:** Add custom logic
 
 1. In Visual Studio Code open the file `cat-service.js` and replace the existing code with::
 
@@ -456,3 +457,76 @@ You can now see the generic handlers shipped with CAP in action.
 4. Execute the `GET Books` request again.
 
     >The stock of book `201` is lower than before.
+
+
+## **Step 1:** Enhance project configuration for SAP HANA
+It’s now time to switch to SAP HANA as a database.
+
+1. If `cds watch` is still running in Visual Studio Code, press CTRL+C in the command line to stop the service.
+
+2. In Visual Studio Code add the following configuration in the file package.json of your my-bookshop project. Overwrite any existing cds configuration:
+
+``` json
+"cds": {
+    "requires": {
+      "db": {
+        "kind": "sql"
+      }
+    }
+```
+> kind:sql declares the requirement for an SQL database. It evaluates to sqlite in the development profile (active by default), while in production it equals hana. This way you don’t need to modify this file if you want to switch between the two databases.
+
+3. In the command line add the SAP HANA driver as a dependency to your project:
+   
+``` bash
+npm add @sap/hana-client --save
+```
+>The latest nodejs version is 14.x currently but SAP HANA client supports 10.x or 12.x. So downgrade your nodejs to install this client
+
+
+## **Step 2:** Identify SAP Cloud Platform Cloud Foundry endpoint
+
+1. The Cloud Foundry API endpoint is required so that you can log on to your SAP Cloud Platform Cloud Foundry space through Cloud Foundry CLI.
+
+2. Go to the SAP Cloud Platform Trial Cockpit and choose *Enter Your Trial Account*.
+3. Navigate to your Subaccount:
+4. Copy the Cloud Foundry API Endpoint value:
+5. Go back to Visual Studio Code to the command line. Authenticate with your login credentials using the following command:
+``` bash
+cf login
+```
+
+## **Step 3:** Deploy using cf push
+
+Cloud Foundry environment of SAP Cloud Platform has a built-in cf push command to deploy applications. It needs the application files plus an optional manifest.yml file to push the application code and to bind the relevant services to the application.
+
+1. As cf push can only bind but not create services, you need to create the SAP HANA service manually (along with an HDI container and a database schema). In the command line add:
+
+``` bash
+cf create-service hanatrial hdi-shared my-bookshop-db-hdi-container
+```
+
+2. Now, build and deploy both the database part and the actual application and add:
+
+``` bash
+CDS_ENV=production cds build && cf push -f gen/db && cf push -f gen/srv --random-route
+```
+> Troubleshooting: If gen/db doesn't exist then put this in .cdsrc.json
+> 
+```json
+{
+    "build": {
+        "target": "gen",
+        "tasks": [
+          {"src":"srv","for":"node-cf","options":{"model":["db","srv","app"]}},
+          {"src":"db","for":"hana","options":{"model":["db","srv","app"]}}
+        ]
+      }
+}
+```
+
+3. In the deploy log, find the application URL in the routes line at the end:
+
+4. Open this URL in the browser and try out the provided links, for example, .../catalog/Books. Application data is fetched from SAP HANA.
+
+
