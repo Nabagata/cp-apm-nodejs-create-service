@@ -66,8 +66,6 @@ Before you start, make sure that you've completed the prerequisites.
 
 ## **Step 3:** Start project
 
-[OPTION BEGIN [Windows]]
-
 With your installed CDS command line tool, you can now create a new CAP-based project, in the form of a new directory with various things preconfigured.
 
 1. Open a command line window and run the following command in a folder of your choice to create the project:
