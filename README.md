@@ -512,6 +512,8 @@ cf create-service hanatrial hdi-shared my-bookshop-db-hdi-container
 ``` bash
 CDS_ENV=production cds build && cf push -f gen/db && cf push -f gen/srv --random-route
 ```
+> This process takes some minutes. The first part of the command creates the SAP HANA table and view definitions along with manifest.yaml files in both in gen/db and gen/srv folders. Look at gen/db/manifest.yaml and see that it binds to the my-bookshop-db-hdi-container service that you’ve created in the previous step.
+
 > Troubleshooting: If gen/db doesn't exist then put this in .cdsrc.json
 > 
 ```json
@@ -527,6 +529,12 @@ CDS_ENV=production cds build && cf push -f gen/db && cf push -f gen/srv --random
 ```
 
 3. In the deploy log, find the application URL in the routes line at the end:
+
+```
+name:              my-bookshop-srv
+requested state:   started
+routes:            my-bookshop-srv-....cfapps.sap.hana.ondemand.com
+```
 
 4. Open this URL in the browser and try out the provided links, for example, .../catalog/Books. Application data is fetched from SAP HANA.
 
