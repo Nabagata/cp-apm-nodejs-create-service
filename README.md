@@ -1,6 +1,7 @@
 # Build a Business Application Using CAP for Node.js
-* Develop a sample business service using Core Data &amp; Services (CDS), Node.js, and SQLite, by using the SAP Cloud Application Programming Model (CAP) and developing on your local environment.
-* Deploy your SAP Cloud Application Programming Model (CAP) application into the Cloud Foundry environment of SAP Cloud Platform.
+
+* [Develop a sample business service using Core Data &amp; Services (CDS), Node.js, and SQLite, by using the SAP Cloud Application Programming Model (CAP) and developing on your local environment.](#step-1-set-up-local-development-environment)
+* [Deploy your SAP Cloud Application Programming Model (CAP) application into the Cloud Foundry environment of SAP Cloud Platform.](#step-1-enhance-project-configuration-for-sap-hana)
 
 
 ## Prerequisites
