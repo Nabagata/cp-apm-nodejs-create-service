@@ -510,10 +510,10 @@ cf create-service hanatrial hdi-shared my-bookshop-db-hdi-container
 ``` bash
 CDS_ENV=production cds build && cf push -f gen/db && cf push -f gen/srv --random-route
 ```
-> This process takes some minutes. The first part of the command creates the SAP HANA table and view definitions along with manifest.yaml files in both in gen/db and gen/srv folders. Look at gen/db/manifest.yaml and see that it binds to the my-bookshop-db-hdi-container service that you’ve created in the previous step.
 
+> This process takes some minutes. The first part of the command creates the SAP HANA table and view definitions along with manifest.yaml files in both in gen/db and gen/srv folders. Look at gen/db/manifest.yaml and see that it binds to the my-bookshop-db-hdi-container service that you’ve created in the previous step.
 > Troubleshooting: If gen/db doesn't exist then put this in .cdsrc.json
-> 
+
 ```json
 {
     "build": {
